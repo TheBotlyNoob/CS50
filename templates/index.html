@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="https://jj.is-a.dev/fonts/Brandon Grotesque/index.min.css" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">
+        <title>Birthdays</title>
+    </head>
+    <body>
+        <div class="jumbotron">
+            <h1>Birthdays</h1>
+        </div>
+        <div class="container">
+            <div class="section">
+
+                <h2>Add a Birthday</h2>
+                <form id='newBday' action='/' method='post'>
+                    <input autocomplete='off' name='name' placeholder='Name'>
+                    <input autocomplete='off' name='month' placeholder='Month'>
+                    <input autocomplete='off' name='day' placeholder='Day'>
+                    <input type='submit'>
+                </form>
+            </div>
+
+            <div class="section">
+
+                <h2>All Birthdays</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Birthday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ bdays | safe }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
