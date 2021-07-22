@@ -50,8 +50,3 @@ main img
     /* Constrain images on small screens */
     max-width: 100%;
 }
-
-.error
-{
-    color: red;
-}

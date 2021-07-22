@@ -126,7 +126,7 @@ def quote():
 
             return render_template('quote.html', stockPrice=quote['latestPrice'], companyName=quote['companyName'])
         except IEXQueryError:
-            return render_template('quote.html', unknown=True)
+            return apology('unknown stock symbol', 500)
 
     return render_template('quote.html')
 
@@ -141,7 +141,6 @@ def register():
 
         username = request.form.get('username')
         password = request.form.get('password')
-        print(f'{username=}\n{password=}')
 
         if not bool(username) or not bool(password):
             return apology('invalid username and/or password', 403)

@@ -13,8 +13,6 @@
         <div>
         {% if stockPrice and companyName %}
             <h4>{{ companyName }}'s Stock Price Is: {{ stockPrice | usd }}</h4>
-        {% elif unknown %}
-            <h4 class='error'>Unknown Stock Symbol!</h4>
         {% endif %}
         </div>
     </form>
