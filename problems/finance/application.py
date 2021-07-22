@@ -6,7 +6,8 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-from requests import get, post
+from iexfinance.stocks import Stock
+from iexfinance.utils.exceptions import IEXQueryError
 
 from helpers import apology, login_required, lookup, usd
 
@@ -15,7 +16,6 @@ app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-
 
 # Ensure responses aren't cached
 @app.after_request
@@ -42,6 +42,9 @@ db = SQL('sqlite:///finance.db')
 if not environ.get('API_KEY'):
     raise RuntimeError('API_KEY not set')
 
+# Make it easier to make api requests
+def getStocks(stocks=[]):
+    return Stock(stocks, token=environ.get('API_KEY'), output_format='json')
 
 @app.route('/')
 @login_required
@@ -83,7 +86,7 @@ def login():
             return apology('must provide password', 403)
 
         # Query database for username
-        rows = db.execute('SELECT * FROM users WHERE username = ?', request.form.get('username'))
+        rows = db.execute('SELECT hash, id FROM users WHERE username = ?', request.form.get('username'))
 
         print(rows)
 
@@ -110,14 +113,22 @@ def logout():
     session.clear()
 
     # Redirect user to login form
-    return redirect('/')
+    return redirect('/login')
 
 
 @app.route('/quote', methods=['GET', 'POST'])
 @login_required
 def quote():
     'Get stock quote.'
-    return apology('TODO')
+    if request.method == 'POST':
+        try:
+            quote = getStocks(request.form.get('symbol')).get_quote()
+
+            return render_template('quote.html', stockPrice=quote['latestPrice'], companyName=quote['companyName'])
+        except IEXQueryError:
+            return render_template('quote.html', unknown=True)
+
+    return render_template('quote.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])

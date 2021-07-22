@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Get Quote
+{% endblock %}
+
+{% block main %}
+    <form action='/quote' method='post'>
+        <div class='form-group'>
+            <input class='form-control' name='symbol' autofill='off' placeholder='Stock Symbol'>
+        </div>
+        <button class='btn btn-primary' type='submit'>Get Quote</button>
+        <div>
+        {% if stockPrice and companyName %}
+            <h4>{{ companyName }}'s Stock Price Is: {{ stockPrice | usd }}</h4>
+        {% elif unknown %}
+            <h4 class='error'>Unknown Stock Symbol!</h4>
+        {% endif %}
+        </div>
+    </form>
+{% endblock %}
