@@ -6,8 +6,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-from iexfinance.stocks import Stock
-from iexfinance.utils.exceptions import IEXQueryError
+from json import loads, dumps
 
 from helpers import apology, login_required, lookup, usd
 
@@ -42,10 +41,6 @@ db = SQL('sqlite:///finance.db')
 if not environ.get('API_KEY'):
     raise RuntimeError('API_KEY not set')
 
-# Make it easier to make api requests
-def getStocks(stocks=[]):
-    return Stock(stocks, token=environ.get('API_KEY'), output_format='json')
-
 @app.route('/')
 @login_required
 def index():
@@ -57,7 +52,22 @@ def index():
 @login_required
 def buy():
     'Buy shares of stock'
-    return apology('TODO')
+    if request.method == 'POST':
+        stock = request.form.get('symbol')
+        quote = lookup(stock)
+        user = db.execute('SELECT * FROM users WHERE id = ?', session['user_id'])[0]
+        cash = user['cash'] - quote['price']
+        currentStocks = loads(user['stocks'])
+
+        if not quote:
+            return apology('unknown stock symbol', 403)
+        print(currentStocks)
+
+        # db.execute('UPDATE users SET cash = ?, stocks = ? WHERE id = ?', cash, session['user_id'])
+        return render_template('buy.html', companyName=quote['name'], money=cash)
+
+        print(stock, cash)
+    return render_template('buy.html')
 
 
 @app.route('/history')
@@ -121,12 +131,10 @@ def logout():
 def quote():
     'Get stock quote.'
     if request.method == 'POST':
-        try:
-            quote = getStocks(request.form.get('symbol')).get_quote()
-
-            return render_template('quote.html', stockPrice=quote['latestPrice'], companyName=quote['companyName'])
-        except IEXQueryError:
-            return apology('unknown stock symbol', 500)
+        quote = lookup(request.form.get('symbol'))
+        if not quote:
+            return apology('unknown stock symbol', 403)
+        return render_template('quote.html', stockPrice=quote['price'], companyName=quote['name'])
 
     return render_template('quote.html')
 
@@ -146,7 +154,7 @@ def register():
             return apology('invalid username and/or password', 403)
         else:
             try:
-                db.execute('INSERT INTO users (username, cash, hash) VALUES (?, 10000, ?)', username, generate_password_hash(password))
+                db.execute('INSERT INTO users (username, hash) VALUES (?, ?)', username, generate_password_hash(password))
                 # Remember which user has logged in
                 session['user_id'] = db.execute('SELECT id FROM users WHERE username = ?', username)[0]
             except ValueError:
