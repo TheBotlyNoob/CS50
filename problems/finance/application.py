@@ -53,20 +53,19 @@ def index():
 def buy():
     'Buy shares of stock'
     if request.method == 'POST':
-        stock = request.form.get('symbol')
-        quote = lookup(stock)
+        quote = lookup(request.form.get('symbol'))
+        if not quote:
+            return apology('unknown stock symbol')
         user = db.execute('SELECT * FROM users WHERE id = ?', session['user_id'])[0]
         cash = user['cash'] - quote['price']
         currentStocks = loads(user['stocks'])
+        try:
+            currentStocks[quote['symbol']] += 1
+        except:
+            currentStocks[quote['symbol']] = 1
 
-        if not quote:
-            return apology('unknown stock symbol', 403)
-        print(currentStocks)
-
-        # db.execute('UPDATE users SET cash = ?, stocks = ? WHERE id = ?', cash, session['user_id'])
+        db.execute('UPDATE users SET cash = ?, stocks = ? WHERE id = ?', cash, dumps(currentStocks), session['user_id'])
         return render_template('buy.html', companyName=quote['name'], money=cash)
-
-        print(stock, cash)
     return render_template('buy.html')
 
 
@@ -97,8 +96,6 @@ def login():
 
         # Query database for username
         rows = db.execute('SELECT hash, id FROM users WHERE username = ?', request.form.get('username'))
-
-        print(rows)
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]['hash'], request.form.get('password')):
@@ -133,7 +130,7 @@ def quote():
     if request.method == 'POST':
         quote = lookup(request.form.get('symbol'))
         if not quote:
-            return apology('unknown stock symbol', 403)
+            return apology('unknown stock symbol')
         return render_template('quote.html', stockPrice=quote['price'], companyName=quote['name'])
 
     return render_template('quote.html')
@@ -154,7 +151,7 @@ def register():
             return apology('invalid username and/or password', 403)
         else:
             try:
-                db.execute('INSERT INTO users (username, hash) VALUES (?, ?)', username, generate_password_hash(password))
+                db.execute('INSERT INTO users (username, hash, stocks) VALUES (?, ?, ?)', username, generate_password_hash(password), '{}')
                 # Remember which user has logged in
                 session['user_id'] = db.execute('SELECT id FROM users WHERE username = ?', username)[0]
             except ValueError:
@@ -168,7 +165,23 @@ def register():
 @login_required
 def sell():
     'Sell shares of stock'
-    return apology('TODO')
+    if request.method == 'POST':
+        quote = lookup(request.form.get('symbol'))
+        if not quote:
+            return apology('unknown stock symbol')
+        user = db.execute('SELECT * FROM users WHERE id = ?', session['user_id'])[0]
+        cash = user['cash'] + quote['price']
+        currentStocks = loads(user['stocks'])
+        try:
+            currentStocks[quote['symbol']] -= 1
+            if currentStocks[quote['symbol']] < 0:
+                return apology("you don't have that stock")
+        except:
+            return apology("you don't have that stock")
+
+        db.execute('UPDATE users SET cash = ?, stocks = ? WHERE id = ?', cash, dumps(currentStocks), session['user_id'])
+        return render_template('sell.html', companyName=quote['name'], money=cash)
+    return render_template('sell.html')
 
 
 def errorhandler(e):

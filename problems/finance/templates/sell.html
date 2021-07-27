@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Sell Stock
+{% endblock %}
+
+{% block main %}
+    <form action='/sell' method='post'>
+        <div class='form-group'>
+            <input class='form-control' name='symbol' autofill='off' placeholder='Stock Symbol'>
+        </div>
+        <button class='btn btn-primary' type='submit'>Sell Stock</button>
+        <div>
+        {% if money and companyName %}
+            <h4>You Sold Stock From {{companyName}}! You Have {{money | usd}} Left!</h4>
+        {% endif %}
+        </div>
+    </form>
+{% endblock %}

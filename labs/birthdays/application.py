@@ -1,5 +1,9 @@
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from dotenv import load_env
+
+# Load a .env file
+load_env()
 
 # Configure application
 app = Flask(__name__)
