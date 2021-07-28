@@ -58,6 +58,8 @@ def buy():
             return apology('unknown stock symbol')
         user = db.execute('SELECT * FROM users WHERE id = ?', session['user_id'])[0]
         cash = user['cash'] - quote['price']
+        if (cash < 0):
+            return apology("you don't have enough money")
         currentStocks = loads(user['stocks'])
         try:
             currentStocks[quote['symbol']] += 1
