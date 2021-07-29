@@ -7,8 +7,12 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from json import loads, dumps
+from dotenv import load_dotenv
 
 from helpers import apology, login_required, lookup, usd
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure application
 app = Flask(__name__)
