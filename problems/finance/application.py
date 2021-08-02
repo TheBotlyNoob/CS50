@@ -21,6 +21,8 @@ app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # Ensure responses aren't cached
+
+
 @app.after_request
 def after_request(response):
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
@@ -44,6 +46,7 @@ db = SQL('sqlite:///finance.db')
 # Make sure API key is set
 if not environ.get('API_KEY'):
     raise RuntimeError('API_KEY not set')
+
 
 @app.route('/')
 @login_required
@@ -157,9 +160,10 @@ def register():
             return apology('invalid username and/or password', 403)
         else:
             try:
-                db.execute('INSERT INTO users (username, hash, stocks) VALUES (?, ?, ?)', username, generate_password_hash(password), '{}')
+                db.execute('INSERT INTO users (username, hash, stocks) VALUES (?, ?, ?)',
+                           username, generate_password_hash(password), '{}')
                 # Remember which user has logged in
-                session['user_id'] = db.execute('SELECT id FROM users WHERE username = ?', username)[0]
+                session['user_id'] = db.execute('SELECT id FROM users WHERE username = ?', username)[0]['id']
             except ValueError:
                 return apology('username already taken', 403)
             return redirect('/')
