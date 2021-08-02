@@ -1,45 +1,43 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-        <link href="styles.css" rel="stylesheet">
-        <title>Trivia!</title>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+    <title>Trivia!</title>
 
-        <script src="scripts.js"></script>
+    <script src="scripts.js"></script>
+  </head>
+  <body>
+    <div class="jumbotron">
+      <h1>Trivia!</h1>
+    </div>
 
-    </head>
-    <body>
+    <div class="container">
+      <div class="section">
+        <h2>Part 1: Multiple Choice</h2>
+        <hr />
+        <h3>Are You A Coder?</h3>
+        <button id="btn1">Yes</button>
+        <button id="btn2">No</button>
+        <button id="btn3">Maybe</button>
 
-        <div class="jumbotron">
-            <h1>Trivia!</h1>
-        </div>
+        <h4 id="feedback1"></h4>
+      </div>
 
-        <div class="container">
+      <div class="section">
+        <h2>Part 2: Free Response</h2>
+        <hr />
+        <h3>What <u>ONE LANGUAGE</u> Was This Website Coded In?</h3>
 
-            <div class="section">
-                <h2>Part 1: Multiple Choice </h2>
-                <hr>
-                <h3>Are You A Coder?</h3>
-                <button id='btn1'>Yes</button>
-                <button id='btn2'>No</button>
-                <button id='btn3'>Maybe</button>
+        <input autocomplete="off" id="Q2" type="text" />
+        <button id="freeResponse">Submit!</button>
 
-                <h4 id='feedback1'></h4>
-
-            </div>
-
-            <div class="section">
-                <h2>Part 2: Free Response</h2>
-                <hr>
-                <h3>What <u>ONE LANGUAGE</u> Was This Website Coded In?</h3>
-            
-                <input autocomplete="off" id="Q2" type="text"></input>
-                <button id='freeResponse'>Submit!</button>
-
-                <h4 id="feedback2"></h4>
-            </div>
-
-        </div>
-    </body>
+        <h4 id="feedback2"></h4>
+      </div>
+    </div>
+  </body>
 </html>

@@ -52,7 +52,15 @@ if not environ.get('API_KEY'):
 @login_required
 def index():
     'Show portfolio of stocks'
-    return apology('TODO')
+
+    stocks = []
+
+    for stock, amount in loads(db.execute('SELECT stocks FROM users WHERE id = ?', session['user_id'])[0]['stocks']).items():
+      quote = lookup(stock)
+      quote['amount'] = amount
+      stocks.append(quote)
+    
+    return render_template('index.html', stocks)
 
 
 @app.route('/buy', methods=['GET', 'POST'])

@@ -1,33 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
-@import url('https://jj.is-a.dev/fonts/Operator/index.min.css');
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+@import url("https://jj.is-a.dev/fonts/Operator/index.min.css");
 
 * {
-    font-family: 'Operator Mono SSm Lig', Arial, Helvetica, sans-serif;
-    padding: 0;
-    margin: 0;
+  font-family: "Operator Mono SSm Lig", Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 .jj {
-    font-family: 'Dancing Script', cursive !important;
+  font-family: "Dancing Script", cursive !important;
 }
 
-.about, .dreams, .home {
-    margin: 30vh 10vw;
+.about,
+.dreams,
+.home {
+  margin: 30vh 10vw;
 }
 
 .org-img {
-    border-radius: 50%;
-    max-width: 100px;
+  border-radius: 50%;
+  max-width: 100px;
 }
 
-.org, .repo {
-    padding: 10px
+.org,
+.repo {
+  padding: 10px;
 }
 
 .dreams {
-    margin: 200px;
+  margin: 200px;
 }
 
 footer {
-    margin: 10px;
+  margin: 10px;
 }
