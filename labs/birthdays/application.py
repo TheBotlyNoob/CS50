@@ -19,24 +19,29 @@ db = SQL("sqlite:///birthdays.db")
 def index():
     if request.method == "POST":
 
-        name = request.form.get('name')
-        month = request.form.get('month')
-        day = request.form.get('day')
+        name = request.form.get("name")
+        month = request.form.get("month")
+        day = request.form.get("day")
 
-        db.execute("INSERT INTO birthdays (name, month, day) VALUES (?, ?, ?)", name, month, day)
+        db.execute(
+            "INSERT INTO birthdays (name, month, day) VALUES (?, ?, ?)",
+            name,
+            month,
+            day,
+        )
 
         return redirect("/")
 
     else:
 
-        html = ''
+        html = ""
 
-        for bday in db.execute('SELECT * FROM birthdays'):
-            html += f'''
+        for bday in db.execute("SELECT * FROM birthdays"):
+            html += f"""
                         <tr>
                             <td>{bday['name']}</td>
                             <td>{bday['month']}/{bday['day']}</td>
                         </tr>
-                    '''
+                    """
 
         return render_template("index.html", bdays=html)

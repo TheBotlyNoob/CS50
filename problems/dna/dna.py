@@ -19,7 +19,7 @@ def main():
     dnastrcount = []
 
     # Open the database
-    with open(database, 'r') as csvfile:
+    with open(database, "r") as csvfile:
         reader = csv.reader(csvfile)
         line = 0
         for row in reader:
@@ -29,7 +29,7 @@ def main():
             else:
                 information.append(row)
     # Open the sequence and remove new line at the end
-    with open(sequence, 'r') as txtfile:
+    with open(sequence, "r") as txtfile:
         sq = txtfile.readline().rstrip("\n")
 
     # for loop to count each DNA str and save in a list
@@ -47,11 +47,12 @@ def main():
             name = "No match"
     print(name)
 
+
 # Function to count each pattern in a sequence
 
 
 def count(c, s):
-    p = rf'({c})\1*'
+    p = rf"({c})\1*"
     pattern = re.compile(p)
     match = [match for match in pattern.finditer(s)]
     max = 0

@@ -8,12 +8,19 @@ main %}
       autofill="off"
       placeholder="Stock Symbol"
     />
+    <br />
+    <input
+      class="form-control"
+      name="shares"
+      autofill="off"
+      placeholder="Shares"
+    />
   </div>
   <button class="btn btn-primary" type="submit">Buy Stock</button>
   <div>
     {% if money and companyName %}
     <h4>
-      You Bought Stock From { {companyName }}! You Have {{money | usd}} Left!
+      You Bought Stock From {{companyName}}! You Have {{money | usd}} Left!
     </h4>
     {% endif %}
   </div>
