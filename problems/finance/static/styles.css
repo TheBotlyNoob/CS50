@@ -1,5 +1,5 @@
 body {
-  font-family: "Brandon Grotesque", monospace;
+  font-family: 'Brandon Grotesque', monospace;
 }
 
 nav .navbar-brand {
@@ -40,4 +40,10 @@ main {
 main img {
   /* Constrain images on small screens */
   max-width: 100%;
+}
+
+.stock {
+  border: 2px solid grey;
+  border-radius: 25px;
+  margin: 50px;
 }

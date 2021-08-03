@@ -1,3 +1,9 @@
 {% extends 'layout.html' %} {% block title %} Overview {% endblock %} {% block
-main %} {% for stock in stocks %} <span>{{stock}}</span><br />
+main %} {% for stock in stocks %}
+<div class="stock">
+  <h2>{{stock['symbol']}}</h2>
+  <hr />
+  <p>The Price Is Currently <code>{{stock['price']}}</code></p>
+  <p>You Currently Own {{stock['amount']}} Share[s]</p>
+</div>
 {% endfor %} {% endblock %}

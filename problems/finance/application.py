@@ -11,6 +11,9 @@ from dotenv import load_dotenv
 
 from helpers import apology, login_required, lookup, usd
 
+# For debugging porposes
+from pprint import pprint
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -73,10 +76,13 @@ def buy():
     "Buy shares of stock"
     if request.method == "POST":
         quote = lookup(request.form.get("symbol"))
-        shares = int(request.form.get("shares"))
+        try:
+          shares = int(request.form.get("shares"))
+        except ValueError:
+          return apology("shares must be a number")
         if not quote:
             return apology("unknown stock symbol")
-        elif shares < 0:
+        elif shares <= 0:
             return apology("shares must be a positive number")
 
         user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]
@@ -84,6 +90,7 @@ def buy():
         if cash < 0:
             return apology("you don't have enough money")
         currentStocks = loads(user["stocks"])
+        pprint(currentStocks)
         try:
             currentStocks[quote["symbol"]] += shares
         except:
@@ -211,15 +218,23 @@ def sell():
     "Sell shares of stock"
     if request.method == "POST":
         quote = lookup(request.form.get("symbol"))
+        try:
+          shares = int(request.form.get("shares"))
+        except ValueError:
+          return apology("shares must be a number")
         if not quote:
             return apology("unknown stock symbol")
+        elif shares <= 0:
+            return apology("shares must be a positive number")
         user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]
-        cash = user["cash"] + quote["price"]
+        cash = user["cash"] + quote["price"] * shares
         currentStocks = loads(user["stocks"])
         try:
-            currentStocks[quote["symbol"]] -= 1
+            currentStocks[quote["symbol"]] -= shares
             if currentStocks[quote["symbol"]] < 0:
                 return apology("you don't have that stock")
+            elif currentStocks[quote["symbol"]] == 0:
+              del currentStocks[quote["symbol"]]
         except:
             return apology("you don't have that stock")
 
