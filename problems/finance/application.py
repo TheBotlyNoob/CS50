@@ -8,6 +8,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from json import loads, dumps
 from dotenv import load_dotenv
+from time import strftime
 
 from helpers import apology, login_required, lookup, usd
 
@@ -77,9 +78,9 @@ def buy():
     if request.method == "POST":
         quote = lookup(request.form.get("symbol"))
         try:
-          shares = int(request.form.get("shares"))
+            shares = int(request.form.get("shares"))
         except ValueError:
-          return apology("shares must be a number")
+            return apology("shares must be a number")
         if not quote:
             return apology("unknown stock symbol")
         elif shares <= 0:
@@ -219,9 +220,9 @@ def sell():
     if request.method == "POST":
         quote = lookup(request.form.get("symbol"))
         try:
-          shares = int(request.form.get("shares"))
+            shares = int(request.form.get("shares"))
         except ValueError:
-          return apology("shares must be a number")
+            return apology("shares must be a number")
         if not quote:
             return apology("unknown stock symbol")
         elif shares <= 0:
@@ -234,7 +235,7 @@ def sell():
             if currentStocks[quote["symbol"]] < 0:
                 return apology("you don't have that stock")
             elif currentStocks[quote["symbol"]] == 0:
-              del currentStocks[quote["symbol"]]
+                del currentStocks[quote["symbol"]]
         except:
             return apology("you don't have that stock")
 

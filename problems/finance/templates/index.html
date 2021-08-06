@@ -2,8 +2,13 @@
 main %} {% for stock in stocks %}
 <div class="stock">
   <h2>{{stock['symbol']}}</h2>
+  <h5>{{stock['name']}}</h5>
   <hr />
   <p>The Price Is Currently <code>{{stock['price']}}</code></p>
-  <p>You Currently Own {{stock['amount']}} Share[s]</p>
+  <p>You Currently Own <code>{{stock['amount']}}</code> Share[s]</p>
 </div>
-{% endfor %} {% endblock %}
+{% endfor %} {% if stocks == [] %}
+<div>
+  <h1>You Have No Stocks! <a href="/buy">Buy Some</a>!</h1>
+</div>
+{% endif %} {% endblock %}
