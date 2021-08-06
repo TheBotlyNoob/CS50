@@ -31,8 +31,6 @@ int ask(void)
 void hill(void)
 {
     int height = ask();
-    if (height > 0 && height < 9)
-    {
         int counter = 0;
         for (int row = 0; row < height; row++)
         {
@@ -58,5 +56,4 @@ void hill(void)
                 counter++;
             }
         }
-    }
 }

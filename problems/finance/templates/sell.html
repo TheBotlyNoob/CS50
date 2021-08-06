@@ -2,13 +2,14 @@
 main %}
 <form action="/sell" method="post">
   <div class="form-group">
-    <input
-      class="form-control"
-      name="symbol"
-      autofill="off"
-      placeholder="Stock Symbol"
-    />
-    <br />
+    <select class="form-control" name="symbol">
+      <option disabled selected value="">Symbol</option>
+      {% for symbol in stocks %}
+      <option name="{{symbol}}">{{symbol}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
     <input
       class="form-control"
       name="shares"
@@ -18,8 +19,11 @@ main %}
   </div>
   <button class="btn btn-primary" type="submit">Sell Stock</button>
   <div>
-    {% if money and companyName %}
-    <h4>You Sold Stock From {{companyName}}! You Have {{money | usd}} Left!</h4>
+    {% if money and companyName and spent %}
+    <h4>
+      You Sold Stock From <code>{{companyName}}</code>! You Spent
+      <code>{{spent | usd}}</code>! You Have <code>{{money | usd}}</code> Left!
+    </h4>
     {% endif %}
   </div>
 </form>

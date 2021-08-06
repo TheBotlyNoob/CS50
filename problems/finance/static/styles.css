@@ -42,7 +42,10 @@ main img {
   max-width: 100%;
 }
 
-.stock {
+main p {
+  margin: 7px;
+}
+main .stock {
   border: 2px solid grey;
   border-radius: 25px;
   margin: 50px;

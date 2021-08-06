@@ -1,4 +1,27 @@
 {% extends 'layout.html' %} {% block title %} Overview {% endblock %} {% block
-main %}
-<h1>TODO</h1>
+main %} {% if transactions == [] %}
+<div>
+  <h1>You Have No Transactions!</h1>
+</div>
+{% else %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Transaction</th>
+      <th>Symbol</th>
+      <th>Money Left</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for transaction in transactions %}
+    <tr>
+      <th>{{transaction['transaction']}}</th>
+      <th>{{transaction['symbol']}}</th>
+      <th>{{transaction['money'] | usd}}</th>
+      <th>{{transaction['date']}}</th>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endif %} {% endblock %}

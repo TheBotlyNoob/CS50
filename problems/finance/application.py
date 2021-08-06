@@ -7,16 +7,9 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from json import loads, dumps
-from dotenv import load_dotenv
-from time import strftime
+from datetime import datetime
 
 from helpers import apology, login_required, lookup, usd
-
-# For debugging porposes
-from pprint import pprint
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Configure application
 app = Flask(__name__)
@@ -91,19 +84,41 @@ def buy():
         if cash < 0:
             return apology("you don't have enough money")
         currentStocks = loads(user["stocks"])
-        pprint(currentStocks)
+        currentTransactions = loads(user["transactions"])
         try:
             currentStocks[quote["symbol"]] += shares
+            currentTransactions.append(
+                {
+                    "symbol": quote["symbol"],
+                    "transaction": f"-{quote['price'] * shares}",
+                    "money": cash,
+                    "date": str(datetime.now()),
+                }
+            )
         except:
             currentStocks[quote["symbol"]] = shares
+            currentTransactions.append(
+                {
+                    "symbol": quote["symbol"],
+                    "transaction": f"-{quote['price'] * shares}",
+                    "money": cash,
+                    "date": str(datetime.now()),
+                }
+            )
 
         db.execute(
-            "UPDATE users SET cash = ?, stocks = ? WHERE id = ?",
+            "UPDATE users SET cash = ?, stocks = ?, transactions = ? WHERE id = ?",
             cash,
             dumps(currentStocks),
+            dumps(currentTransactions),
             session["user_id"],
         )
-        return render_template("buy.html", companyName=quote["name"], money=cash)
+        return render_template(
+            "buy.html",
+            companyName=quote["name"],
+            money=cash,
+            spent=quote["price"] * shares,
+        )
     return render_template("buy.html")
 
 
@@ -111,7 +126,16 @@ def buy():
 @login_required
 def history():
     "Show history of transactions"
-    return apology("TODO")
+    transactions = sorted(
+        loads(
+            db.execute(
+                "SELECT transactions FROM users WHERE id = ?", session["user_id"]
+            )[0]["transactions"]
+        ),
+        key=lambda x: x["date"],
+        reverse=True,
+    )
+    return render_template("history.html", transactions=transactions)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -191,9 +215,12 @@ def register():
 
         username = request.form.get("username")
         password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
 
         if not bool(username) or not bool(password):
-            return apology("invalid username and/or password", 403)
+            return apology("invalid username and/or password")
+        elif confirmation != password:
+            return apology("passwords don't match")
         else:
             try:
                 db.execute(
@@ -207,7 +234,7 @@ def register():
                     "SELECT id FROM users WHERE username = ?", username
                 )[0]["id"]
             except ValueError:
-                return apology("username already taken", 403)
+                return apology("username already taken")
             return redirect("/")
 
     return render_template("register.html")
@@ -218,6 +245,8 @@ def register():
 def sell():
     "Sell shares of stock"
     if request.method == "POST":
+        if request.form.get("symbol") == None:
+            return apology("please select a symbol")
         quote = lookup(request.form.get("symbol"))
         try:
             shares = int(request.form.get("shares"))
@@ -230,8 +259,17 @@ def sell():
         user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]
         cash = user["cash"] + quote["price"] * shares
         currentStocks = loads(user["stocks"])
+        currentTransactions = loads(user["transactions"])
         try:
             currentStocks[quote["symbol"]] -= shares
+            currentTransactions.append(
+                {
+                    "symbol": quote["symbol"],
+                    "transaction": f"+{quote['price'] * shares}",
+                    "money": cash,
+                    "date": str(datetime.now()),
+                }
+            )
             if currentStocks[quote["symbol"]] < 0:
                 return apology("you don't have that stock")
             elif currentStocks[quote["symbol"]] == 0:
@@ -245,8 +283,18 @@ def sell():
             dumps(currentStocks),
             session["user_id"],
         )
-        return render_template("sell.html", companyName=quote["name"], money=cash)
-    return render_template("sell.html")
+        return render_template(
+            "sell.html",
+            companyName=quote["name"],
+            money=cash,
+            spent=quote["price"] * shares,
+        )
+    stocks = loads(
+        db.execute("SELECT stocks FROM users WHERE id = ?", session["user_id"])[0][
+            "stocks"
+        ]
+    )
+    return render_template("sell.html", stocks=stocks.keys())
 
 
 def errorhandler(e):
