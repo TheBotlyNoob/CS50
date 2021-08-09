@@ -25,6 +25,8 @@ void print_winner(void);
 
 int main(int argc, string argv[])
 {
+    int voter_count;
+    string name;
     // Check for invalid usage
     if (argc < 2)
     {
@@ -45,12 +47,12 @@ int main(int argc, string argv[])
         candidates[i].votes = 0;
     }
 
-    int voter_count = get_int("Number of voters: ");
+    voter_count = get_int("Number of voters: ");
 
     // Loop over all voters
     for (int i = 0; i < voter_count; i++)
     {
-        string name = get_string("Vote: ");
+        name = get_string("Vote: ");
 
         // Check for invalid vote
         if (!vote(name))
