@@ -10,16 +10,19 @@ int main(void)
 
     do
     {
+        // Get the start size from the user
         s_size = get_int("What Is The Start Size: ");
     }
-    while(s_size < 9);
+    while (s_size < 9);
 
     do
     {
+        // Get the end size from the user
         e_size = get_int("What Is The End Size:");
     }
     while (e_size < s_size);
 
+    // Calculate the number of years
     calculate(s_size, e_size);
 }
 
