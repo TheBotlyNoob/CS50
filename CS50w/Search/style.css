@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+body,
+html {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#search-bar {
+  border-radius: 50px;
+  width: 60vw;
+  height: 50px;
+  margin: 30px;
+  padding: 15px;
+}
+
+#search-bar::before {
+  content: "🔎";
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60vw;
+}
+
+.button {
+  border-radius: 5px;
+  padding: 13px;
+  margin: 20px;
+  background-color: #f8f9fa;
+  /* so that everything doesn't get raised by 1 pixel on hover */
+  border: solid 1px white;
+  color: black;
+}
+
+.button:hover {
+  border: solid 1px grey;
+  cursor: pointer;
+}
+
+nav {
+  top: 6px;
+  right: 6px;
+  position: absolute;
+}
+
+nav > a {
+  text-decoration: none;
+  color: black;
+  margin: 5px;
+}
+
+nav > a:hover {
+  text-decoration: underline;
+}
+
+nav > a:visited {
+  color: black;
+}
+
+hr {
+  border-color: black;
+}
+
+#google-image {
+  width: min(80vw, 80vh);
+  height: min(20vw, 20vh);
+  top: 0vh;
+  position: absolute;
+  z-index: -1;
+}
+
+#under-google-logo-text {
+  font-size: larger;
+  top: min(15vw, 15vh);
+  position: absolute;
+}
