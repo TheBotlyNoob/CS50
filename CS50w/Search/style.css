@@ -26,10 +26,6 @@ body {
   padding: 15px;
 }
 
-#search-bar::before {
-  content: "🔎";
-}
-
 #button-container {
   display: flex;
   justify-content: center;
@@ -72,10 +68,6 @@ nav > a:visited {
   color: black;
 }
 
-hr {
-  border-color: black;
-}
-
 #google-image {
   width: min(80vw, 80vh);
   height: min(20vw, 20vh);
@@ -88,4 +80,29 @@ hr {
   font-size: larger;
   top: min(15vw, 15vh);
   position: absolute;
+}
+
+#advanced-inputs-container {
+  margin-left: 50px;
+}
+
+#advanced-inputs-container > div {
+  margin-bottom: 10px;
+}
+
+#advanced-inputs-container > div > label::after {
+  content: ":";
+}
+
+#advanced-inputs-container > div > input {
+  position: absolute;
+  left: 45vw;
+}
+
+#advanced-search-button {
+  background-color: #8ab4f8;
+}
+
+#advanced-search-button:hover {
+  background-color: #aecbfa;
 }

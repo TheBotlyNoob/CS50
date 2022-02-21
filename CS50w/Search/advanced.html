@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="advanced">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,17 +18,40 @@
     <img src="google.png" alt="google" id="google-image" />
     <span id="under-google-logo-text">Advanced</span>
 
-    <hr />
-
     <form action="https://www.google.com/search">
-      <input type="text" name="q" id="search-bar" aria-label="Search Bar" />
+      <h4>Find pages with...</h4>
+
+      <br />
+
+      <div id="advanced-inputs-container">
+        <div>
+          <label>all these words</label>
+          <input name="as_q" aria-label="all these words" />
+        </div>
+
+        <div>
+          <label>this exact word or phrase</label>
+          <input name="as_epq" aria-label="this exact word or phrase" />
+        </div>
+
+        <div>
+          <label>any of these words</label>
+          <input name="as_oq" aria-label="any of these words" />
+        </div>
+
+        <div>
+          <label>none of these words</label>
+          <input name="as_eq" aria-label="none of these words" />
+        </div>
+      </div>
+
       <br />
 
       <div id="button-container">
         <input
           type="submit"
           value="Google Advanced Search"
-          id="search-button"
+          id="advanced-search-button"
           class="button"
         />
       </div>
