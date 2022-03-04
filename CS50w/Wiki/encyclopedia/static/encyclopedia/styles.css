@@ -1,6 +1,13 @@
-body {
+body,
+html,
+.row {
+    height: 100%;
+    width: 100%;
+}
+
+* {
     margin: 0;
-    background-color: white;
+    padding: 0;
 }
 
 code {
@@ -18,7 +25,7 @@ textarea {
 }
 
 .main {
-    padding: 10px;
+    padding: 60px;
 }
 
 .search {
@@ -29,10 +36,16 @@ textarea {
 
 .sidebar {
     background-color: #f0f0f0;
-    height: 100vh;
+    height: 100%;
     padding: 20px;
+    padding-bottom: 0px;
 }
 
 .sidebar h2 {
     margin-top: 5px;
+}
+
+#error {
+    width: 100%;
+    height: 50%;
 }

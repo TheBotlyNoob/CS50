@@ -2,18 +2,24 @@ import re
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django.shortcuts import render
 
 
-def list_entries():
+def list_entries() -> list:
     """
     Returns a list of all names of encyclopedia entries.
     """
     _, filenames = default_storage.listdir("entries")
-    return list(sorted(re.sub(r"\.md$", "", filename)
-                for filename in filenames if filename.endswith(".md")))
+    return list(
+        sorted(
+            re.sub(r"\.md$", "", filename)
+            for filename in filenames
+            if filename.endswith(".md")
+        )
+    )
 
 
-def save_entry(title, content):
+def save_entry(title: str, content: str) -> None:
     """
     Saves an encyclopedia entry, given its title and Markdown
     content. If an existing entry with the same title already exists,
@@ -25,7 +31,7 @@ def save_entry(title, content):
     default_storage.save(filename, ContentFile(content))
 
 
-def get_entry(title):
+def get_entry(title: str) -> str | None:
     """
     Retrieves an encyclopedia entry by its title. If no such
     entry exists, the function returns None.
@@ -35,3 +41,29 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+
+
+def error(request, message, code=400):
+    "Render message as an apology to user."
+
+    def escape(s):
+        """
+        Escape special characters.
+
+        https://github.com/jacebrowning/memegen#special-characters
+        """
+
+        for old, new in [
+            ("-", "--"),
+            (" ", "-"),
+            ("_", "__"),
+            ("?", "~q"),
+            ("%", "~p"),
+            ("#", "~h"),
+            ("/", "~s"),
+            ('"', "'"),
+        ]:
+            s = s.replace(old, new)
+        return s
+
+    return render(request, "encyclopedia/error.html", {"message": escape(message)})
