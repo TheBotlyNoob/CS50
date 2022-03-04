@@ -1,4 +1,6 @@
 from django.shortcuts import redirect, render
+from django.views.decorators.http import require_http_methods
+from django import forms
 
 from markdown2 import markdown
 
@@ -7,10 +9,12 @@ import random as random_
 from . import util
 
 
+@require_http_methods(["GET"])
 def index(request):
     return render(request, "encyclopedia/index.html", {"entries": util.list_entries()})
 
 
+@require_http_methods(["GET"])
 def entry(request, title):
     entry = util.get_entry(title)
     if entry:
@@ -23,6 +27,7 @@ def entry(request, title):
         return util.error(request, "Entry not found.")
 
 
+@require_http_methods(["GET"])
 def search(request):
     query = request.GET.get("q")
     entries = util.list_entries()
@@ -37,14 +42,24 @@ def search(request):
         )
 
 
+@require_http_methods(["GET"])
 def random(request):
     entries = util.list_entries()
 
     return redirect("entry", title=random_.choice(entries))
 
 
+@require_http_methods(["POST", "GET"])
 def edit(request, title):
     entry = util.get_entry(title)
+
+    if request.method == "POST":
+        content = request.POST.get("content")
+
+        if content:
+            util.save_entry(title, content)
+            return redirect("entry", title=title)
+
     if entry:
         return render(
             request, "encyclopedia/edit.html", {"title": title, "entry": entry}
@@ -53,5 +68,20 @@ def edit(request, title):
         return util.error(request, "Entry not found.")
 
 
+@require_http_methods(["POST", "GET"])
 def new(request):
-    return render(request, "encyclopedia/new.html")
+    if request.method == "POST":
+        title = request.POST.get("title")
+        content = request.POST.get("content")
+
+        if util.get_entry(title):
+            return util.error(request, "Entry already exists.")
+
+        if title and content:
+            util.save_entry(title, content)
+
+            return redirect("entry", title=title)
+        else:
+            return util.error(request, "Please enter both title and content.")
+    else:
+        return render(request, "encyclopedia/new.html")

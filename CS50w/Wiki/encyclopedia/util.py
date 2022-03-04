@@ -43,7 +43,7 @@ def get_entry(title: str) -> str | None:
         return None
 
 
-def error(request, message, code=400):
+def error(request, message):
     "Render message as an apology to user."
 
     def escape(s):
