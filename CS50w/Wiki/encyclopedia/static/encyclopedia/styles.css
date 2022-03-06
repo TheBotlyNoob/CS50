@@ -51,5 +51,10 @@ textarea {
 }
 
 #content-editor {
-    height: 50px;
+    height: 300px;
+}
+
+#edit-link {
+  position: absolute;
+    right: 30px;
 }
