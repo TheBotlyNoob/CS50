@@ -1,6 +1,5 @@
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
-from django import forms
 
 import random as random_
 
@@ -30,13 +29,18 @@ def search(request):
     query = request.GET.get("q")
     entries = util.list_entries()
 
-    if query in entries:
+    if query.lower() in [entry.lower() for entry in entries]:
         return redirect("entry", title=query)
     else:
         return render(
             request,
             "encyclopedia/search.html",
-            {"results": [entry for entry in entries if query in entry], "query": query},
+            {
+                "results": [
+                    entry for entry in entries if query.lower() in entry.lower()
+                ],
+                "query": query,
+            },
         )
 
 
