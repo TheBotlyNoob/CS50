@@ -67,3 +67,31 @@ def error(request, message):
         return s
 
     return render(request, "encyclopedia/error.html", {"message": escape(message)})
+
+
+def parse_markdown(s: str) -> str:
+    """
+    Converts a Markdown string into HTML.
+    """
+
+    # parse bold face
+    s = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", s)
+
+    # parse headings
+    s = re.sub(
+        r"^(#{1,6}) (.*)",
+        lambda m: rf"<h{len(m.group(1))}>{m.group(2)}</h{len(m.group(1))}>",
+        s,
+        flags=re.MULTILINE,
+    )
+
+    # parse links
+    s = re.sub(r"\[(.*?)\]\((.*?)\)", r'<a href="\2">\1</a>', s)
+
+    # parse unordered lists
+    s = re.sub(r"^[ ]*?-[ ]*(.*)", r"<li>\1</li>", s, flags=re.MULTILINE)
+
+    # very sorry about this, but I could't figure out how to add the <ul> tag before the groups of lists.
+    s = "<ul>" + s + "</ul>"
+
+    return s

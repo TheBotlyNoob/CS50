@@ -2,8 +2,6 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 from django import forms
 
-from markdown2 import markdown
-
 import random as random_
 
 from . import util
@@ -21,7 +19,7 @@ def entry(request, title):
         return render(
             request,
             "encyclopedia/entry.html",
-            {"title": title, "entry": markdown(entry).replace("\n", "<br>")},
+            {"title": title, "entry": util.parse_markdown(entry).replace("\n", "<br>")},
         )
     else:
         return util.error(request, "Entry not found.")
