@@ -1,30 +1,28 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-  {% if listing %}
-      <div class="row">
-          <div class="col-md-12">
-              <h1>{{ listing.title }}</h1>
-              <p>{{ listing.description }}</p>
-              <p>Starting bid: {{ listing.starting_bid }}</p>
-              <p>End date: {{ listing.end_date }}</p>
-              <p>Created at: {{ listing.created_at }}</p>
-              <p>Updated at: {{ listing.updated_at }}</p>
-              {% if listing.user %}
-                  <p>Created by: {{ listing.user.name }}</p>
-              {% endif %}
-          </div>
-      </div>
+    {% if listing %}
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ listing.title }}</h1>
+                <p>{{ listing.description }}</p>
+                <p>Starting bid: {{ listing.starting_bid }}</p>
+                <p>End date: {{ listing.end_date }}</p>
+                <p>Created at: {{ listing.created_at }}</p>
+                <p>Updated at: {{ listing.updated_at }}</p>
+                <p>Created by: {{ listing.user.name }}</p>
+            </div>
+        </div>
 
-      <div class="row">
-          <div class="col-md-12">
-              {% if user %}
-                  {% if user.id == listing.user_id %}
-                      <a href="/auctions/{{ listing.id }}/edit" class="btn btn-primary">Edit</a>
-                  {% endif %}
-              {% endif %}
-          </div>
-      </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% if user %}
+                    {% if user.id == listing.user_id %}
+                        <a href="/auctions/{{ listing.id }}/edit" class="btn btn-primary">Edit</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
     {% else %}
         <p>Listing could not be found. <a href="{% url 'index'%}">Go home?</a></p>
     {% endif %}

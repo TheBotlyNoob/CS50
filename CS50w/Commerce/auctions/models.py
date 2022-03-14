@@ -20,7 +20,7 @@ class Listing(models.Model):
     description = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(
-        upload_to=None)
+        upload_to="images/")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     starting_bid = models.PositiveIntegerField()
     current_bid = models.PositiveIntegerField()

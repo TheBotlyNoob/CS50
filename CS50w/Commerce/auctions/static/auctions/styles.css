@@ -3,8 +3,24 @@ body {
 }
 
 .listing {
-  margin: 3px;
-  border-radius: 25px;
-  padding: 5px;
-  border-width: 1px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    width: 90%;
+    float: left;
+    color: black;
+    text-align: center;
+    margin: 20px;
+    background-color: rgb(224, 224, 224);
+}
+
+.listing > img {
+    width: 300px;
+    float: left;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.listing:hover {
+    color: black;
+    background-color: rgb(218, 218, 218);
 }
