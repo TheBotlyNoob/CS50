@@ -1,0 +1,10 @@
+body {
+    padding: 10px;
+}
+
+.listing {
+  margin: 3px;
+  border-radius: 25px;
+  padding: 5px;
+  border-width: 1px;
+}
