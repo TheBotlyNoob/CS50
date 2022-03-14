@@ -20,6 +20,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'search' %}">Search Listings</a>
+            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'new_listing' %}">New Listing</a>
@@ -37,7 +40,9 @@
             {% endif %}
         </ul>
         <hr>
-        {% block body %}
-        {% endblock %}
+        <main>
+            {% block body %}
+            {% endblock %}
+        </main>
     </body>
 </html>

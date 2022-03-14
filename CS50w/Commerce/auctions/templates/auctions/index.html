@@ -1,5 +1,4 @@
 {% extends "auctions/layout.html" %}
-{% load helpers %}
 
 {% block body %}
     {% if messsage %}
@@ -9,9 +8,12 @@
     <h2>Active Listings</h2>
 
     {% for listing in active_listings %}
-        <a href="{% url 'listing' listing.id %}" class="listing">
-          <img src="https://www.w3schools.com/bootstrap4/paris.jpg" alt="https://www.w3schools.com/bootstrap4/paris.jpg"/>
-          
+        <a href="{% url 'listing' listing.id %}" class="listing-item">
+          <img src="{{ listing.image_url }}" alt="Listing Image"/>
+          <h4>{{ listing.title }}</h4>
+          <h5><strong>Highest Bid</strong>: ${{ listing.current_bid }}</h5>
+          <p>{{ listing.description }}</p>
+          <span>Created {{ listing.starting_time|date:"F j, Y" }}</span>
         </a>
     {% empty %}
         <p>No active listings</p>
