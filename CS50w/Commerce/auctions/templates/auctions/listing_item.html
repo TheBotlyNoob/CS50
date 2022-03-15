@@ -1,0 +1,9 @@
+{% load helpers %}
+
+<a href="{% url 'listing' listing.id %}" class="listing-item">
+      <img src="{{ listing.image_url }}" alt="Listing Image"/>
+      <h4>{{ listing.title }}</h4>
+      <h5><strong>Highest Bid</strong>: ${{ listing|get_current_bid }}</h5>
+      <p>{{ listing.description }}</p>
+      <span>Created {{ listing.starting_time|date:"F j, Y" }}</span>
+</a>

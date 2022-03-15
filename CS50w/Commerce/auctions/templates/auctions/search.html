@@ -1,22 +1,11 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    {% if messsage %}
-        <h1>{{ message }}</h1>
-    {% endif %}
-
-    
     {% if category and title %}
         <h2>Listings in {{ category }} and including {{ title }}</h2>
 
         {% for listing in listings %}
-            <a href="{% url 'listing' listing.id %}" class="listing-item">
-              <img src="{{ listing.image_url }}" alt="Listing Image"/>
-              <h4>{{ listing.title }}</h4>
-              <h5><strong>Highest Bid</strong>: ${{ listing.current_bid }}</h5>
-              <p>{{ listing.description }}</p>
-              <span>Created {{ listing.starting_time|date:"F j, Y" }}</span>
-            </a>
+            {% include "auctions/listing_item.html" with listing=listing %}
         {% empty %}
             <p>No listings in {{ category }} and including {{ title }}</p>
         {% endfor %}
@@ -24,13 +13,7 @@
         <h2>Listings in {{ category }}</h2>
 
         {% for listing in listings %}
-            <a href="{% url 'listing' listing.id %}" class="listing-item">
-              <img src="{{ listing.image_url }}" alt="Listing Image"/>
-              <h4>{{ listing.title }}</h4>
-              <h5><strong>Highest Bid</strong>: ${{ listing.current_bid }}</h5>
-              <p>{{ listing.description }}</p>
-              <span>Created {{ listing.starting_time|date:"F j, Y" }}</span>
-            </a>
+            {% include "auctions/listing_item.html" with listing=listing %}
         {% empty %}
             <p>No listings in {{ category }}</p>
         {% endfor %}
@@ -38,13 +21,7 @@
         <h2>Listings including {{ title }}</h2>
 
         {% for listing in listings %}
-            <a href="{% url 'listing' listing.id %}" class="listing-item">
-              <img src="{{ listing.image_url }}" alt="Listing Image"/>
-              <h4>{{ listing.title }}</h4>
-              <h5><strong>Highest Bid</strong>: ${{ listing.current_bid }}</h5>
-              <p>{{ listing.description }}</p>
-              <span>Created {{ listing.starting_time|date:"F j, Y" }}</span>
-            </a>
+            {% include "auctions/listing_item.html" with listing=listing %}
         {% empty %}
             <p>No listings including {{ title }}</p>
         {% endfor %}

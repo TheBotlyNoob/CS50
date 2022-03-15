@@ -1,4 +1,3 @@
-from tracemalloc import start
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -9,7 +8,7 @@ from django.utils.timezone import make_aware
 
 from datetime import datetime
 
-from .models import User, Listing, Category
+from .models import User, Listing, Category, Bid
 from .forms import ListingForm, SearchForm
 
 
@@ -75,11 +74,14 @@ def register(request):
 def listing(request, id):
     try:
         listing = Listing.objects.get(id=id)
+        message = None
     except Listing.DoesNotExist:
         listing = None
+        message = "Listing does not exist."
 
     return render(request, "auctions/listing.html", {
-        "listing": listing
+        "listing": listing,
+        "message": message,
     })
 
 
@@ -113,7 +115,7 @@ def search(request):
     })
 
 
-@ login_required
+@login_required
 def new_listing(request):
     if request.method == "POST":
         listing_form = ListingForm(request.POST, request.FILES)
@@ -122,13 +124,97 @@ def new_listing(request):
             listing: Listing = listing_form.save(commit=False)
             listing.user = request.user
             listing.starting_time = make_aware(datetime.now())
-            listing.current_bid = listing.starting_bid
+
+            if listing.image_url == "" or listing.image_url is None:
+                listing.image_url = "https://via.placeholder.com/250.png?text=No+Image"
 
             listing.save()
+
+            Bid(amount=listing_form.cleaned_data["starting_bid"],
+                listing=listing, user=request.user).save()
 
             return HttpResponseRedirect(reverse("listing", args=(listing.id,)))
 
         else:
-            return render(request, "auctions/new_listing.html", {"categories": Category.objects.all(), "form": listing_form, "message": "Invalid data"})
+            return render(request, "auctions/new_listing.html", {"categories": Category.objects.all(), "form": listing_form, "message": "Invalid data."})
     else:
         return render(request, "auctions/new_listing.html", {"categories": Category.objects.all(), "form": ListingForm()})
+
+
+@login_required
+def bid(request, id):
+    if request.method == "POST":
+        amount = request.POST["bid"]
+
+        try:
+            listing: Listing = Listing.objects.get(id=id)
+        except Listing.DoesNotExist:
+            return render(request, "auctions/listing.html", {
+                "message": "Listing does not exist."
+            })
+
+        if not listing.active:
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "message": "Listing is no longer active."
+            })
+
+        try:
+            amount = float(amount)
+        except ValueError:
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "message": "Bid amount must be a number."
+            })
+
+        if amount > 0.01:
+            if listing.bids.latest("amount").amount < amount:
+                Bid(user=request.user, listing=listing,
+                    amount=amount).save()
+
+                return HttpResponseRedirect(reverse("listing", args=(id,)))
+            else:
+                return render(request, "auctions/listing.html", {
+                    "listing": listing,
+                    "message": "Bid amount must be greater than current price."
+                })
+        else:
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "message": "Bid amount must be greater than 0.01."
+            })
+    else:
+        return render(request, "auctions/listing.html", {
+            "message": "Bid must be POSTed."
+        })
+
+
+def watchlist(request):
+    if request.method == "POST":
+        listing_id = int(request.POST["listing_id"])
+
+        try:
+            listing = Listing.objects.get(id=listing_id)
+        except Listing.DoesNotExist:
+            return render(request, "auctions/watchlist.html", {
+                "message": "Listing does not exist."
+            })
+
+        if listing.active:
+            request.user.watchlist.add(listing)
+
+            return HttpResponseRedirect(reverse("watchlist"))
+
+        else:
+            return render(request, "auctions/watchlist.html", {
+                "message": "Listing is no longer active."
+            })
+    else:
+        if request.user.is_authenticated:
+            return render(request, "auctions/watchlist.html", {
+                "listings": request.user.watchlist.all()
+            })
+        else:
+            return render(request, "auctions/watchlist.html", {
+                "message": "You must be logged in to view your watchlist."
+            })

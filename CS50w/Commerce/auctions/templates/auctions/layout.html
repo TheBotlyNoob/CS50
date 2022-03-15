@@ -28,6 +28,9 @@
                     <a class="nav-link" href="{% url 'new_listing' %}">New Listing</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                 </li>
             {% else %}
@@ -41,6 +44,10 @@
         </ul>
         <hr>
         <main>
+            {% if message %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endif %}
+            
             {% block body %}
             {% endblock %}
         </main>

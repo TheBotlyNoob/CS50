@@ -1,23 +1,26 @@
 {% extends "auctions/layout.html" %}
+{% load helpers %}
 
 {% block body %}
     {% if listing %}
-        <div class="listing">
-            <h2>{{ listing.title }}</h2>
+        <form action="/watchlist" method="POST">
+          {% csrf_token %}
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+            <input type="submit" class="btn btn-secondary" value="Add to Watchlist">
+        </form>
+        <h2>{{ listing.title }}</h2>
 
-            <img src="{{ listing.image_url }}" alt="Listing Image">
+        <img src="{{ listing.image_url }}" class="listing-image" alt="Listing Image">
 
-            <div class="row">
-                <div class="col-md-12">
-                    {% if user %}
-                        {% if user.id == listing.user_id %}
-                            <a href="/auctions/{{ listing.id }}/edit" class="btn btn-primary">Edit</a>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <p>Listing could not be found. <a href="{% url 'index'%}">Go home?</a></p>
+        <p>{{ listing.description }}</p>
+
+        <h3>${{ listing|get_current_bid }}</h3>
+
+        <form action="/listing/{{ listing.id }}/bid" method="POST">
+            {% csrf_token %}
+            <label for="bid">{{ listing|get_bids|length }} bid(s) so far. {% if current_bid.user == request.user %}Your bid is the current bid.{% endif %}</label>
+            <input type="number" name="bid" class="form-control" placeholder="Bid Amount">
+            <input type="submit" class="btn btn-primary" value="Bid">
+        </form>
     {% endif %}
 {% endblock %}
