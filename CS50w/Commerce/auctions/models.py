@@ -18,7 +18,7 @@ class Category(Model):
 class Comment(Model):
     text = CharField(max_length=200)
     user = ForeignKey(User, on_delete=CASCADE)
-    listing = ForeignKey("Listing", on_delete=CASCADE)
+    listing = ForeignKey("Listing", on_delete=CASCADE, related_name="comments")
 
     def __str__(self):
         return self.text

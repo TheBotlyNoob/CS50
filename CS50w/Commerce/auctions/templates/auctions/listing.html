@@ -14,13 +14,32 @@
 
         <p>{{ listing.description }}</p>
 
-        <h3>${{ listing|get_current_bid }}</h3>
+        <h3>${{ current_bid }}</h3>
 
         <form action="/listing/{{ listing.id }}/bid" method="POST">
             {% csrf_token %}
             <label for="bid">{{ listing|get_bids|length }} bid(s) so far. {% if current_bid.user == request.user %}Your bid is the current bid.{% endif %}</label>
-            <input type="number" name="bid" class="form-control" placeholder="Bid Amount">
+            <input type="number" step="0.01" name="bid" class="form-control" placeholder="Bid Amount">
             <input type="submit" class="btn btn-primary" value="Bid">
         </form>
+
+
+        <form action="/listing/{{ listing.id }}/comment" method="POST">
+            {% csrf_token %}
+            <label for="comment">Leave a comment</label>
+            <textarea name="comment" class="form-control" placeholder="Comment"></textarea>
+            <input type="submit" class="btn btn-primary" value="Comment">
+        </form>
+
+        <br>
+        <h2>Comments</h2>
+        <div class="comments">
+            {% for comment in listing|get_comments %}
+                <div class="comment">
+                    <p>{{ comment.text }}</p>
+                    <span>- {{ comment.user.username }}</span>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}

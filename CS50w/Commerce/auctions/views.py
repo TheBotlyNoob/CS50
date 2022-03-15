@@ -8,7 +8,7 @@ from django.utils.timezone import make_aware
 
 from datetime import datetime
 
-from .models import User, Listing, Category, Bid
+from .models import User, Listing, Category, Bid, Comment
 from .forms import ListingForm, SearchForm
 
 
@@ -74,14 +74,17 @@ def register(request):
 def listing(request, id):
     try:
         listing = Listing.objects.get(id=id)
+        current_bid = listing.bids.latest("amount")
         message = None
     except Listing.DoesNotExist:
         listing = None
+        current_bid = None
         message = "Listing does not exist."
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "message": message,
+        "current_bid": current_bid,
     })
 
 
@@ -191,7 +194,12 @@ def bid(request, id):
 
 def watchlist(request):
     if request.method == "POST":
-        listing_id = int(request.POST["listing_id"])
+        try:
+            listing_id = int(request.POST["listing_id"])
+        except:
+            return render(request, "auctions/watchlist.html", {
+                "message": "Invalid data."
+            })
 
         try:
             listing = Listing.objects.get(id=listing_id)
@@ -218,3 +226,29 @@ def watchlist(request):
             return render(request, "auctions/watchlist.html", {
                 "message": "You must be logged in to view your watchlist."
             })
+
+
+def comment(request, id):
+    if request.method == "POST":
+        try:
+            listing = Listing.objects.get(id=id)
+        except Listing.DoesNotExist:
+            return render(request, "auctions/listing.html", {
+                "message": "Listing does not exist."
+            })
+
+        try:
+            comment = request.POST["comment"]
+        except:
+            return render(request, "auctions/listing.html", {
+                "message": "Invalid data."
+            })
+
+        Comment(user=request.user, listing=listing, text=comment).save()
+
+        return HttpResponseRedirect(reverse("listing", args=(id,)))
+
+    else:
+        return render(request, "auctions/listing.html", {
+            "message": "Comment must be POSTed."
+        })

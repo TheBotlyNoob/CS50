@@ -11,3 +11,8 @@ def get_current_bid(listing):
 @register.filter
 def get_bids(listing):
     return listing.bids.all()
+
+
+@register.filter
+def get_comments(listing):
+    return listing.comments.all()

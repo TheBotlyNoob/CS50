@@ -2,13 +2,6 @@ body {
     padding: 10px;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .listing-item {
     border: 1px solid grey;
     border-radius: 10px;
@@ -44,4 +37,23 @@ main {
 
 .btn {
     margin-top: 5px;
+}
+
+form {
+    margin-top: 30px;
+}
+
+.comment {
+    border: 1px solid grey;
+    border-radius: 10px;
+    width: 90%;
+    float: left;
+    color: black;
+    margin: 20px;
+    background-color: rgb(224, 224, 224);
+}
+
+.comment > span {
+    margin-left: 10px;
+    font-weight: bold;
 }
