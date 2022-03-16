@@ -10,14 +10,14 @@
             </form>
         {% endif %}
         
-        {% if listing.active %}
+        {% if listing.active or is_in_watchlist %}
             <form action="/watchlist" method="POST">
               {% csrf_token %}
                 <input type="hidden" name="listing_id" value="{{ listing.id }}">
-                <input type="submit" class="btn btn-secondary" value="{% if is_in_wishlist %}Remove From {% else %}Add to {% endif %}Watchlist">
+                <input type="submit" class="btn btn-secondary" value="{% if is_in_watchlist %}Remove From {% else %}Add to {% endif %}Watchlist">
             </form>
         {% endif %}
-        
+
         <h2>{{ listing.title }}</h2>
 
         {% if not listing.active %}

@@ -76,21 +76,21 @@ def listing(request, id):
         listing = Listing.objects.get(id=id)
         current_bid = listing.bids.latest("amount").amount
         if request.user.is_authenticated:
-            is_in_wishlist = request.user.watchlist.filter(id=id).exists()
+            is_in_watchlist = request.user.watchlist.filter(id=id).exists()
         else:
-            is_in_wishlist = False
+            is_in_watchlist = False
         message = None
     except Listing.DoesNotExist:
         listing = None
         current_bid = None
-        is_in_wishlist = False
+        is_in_watchlist = False
         message = "Listing does not exist."
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "message": message,
         "current_bid": current_bid,
-        "is_in_wishlist": is_in_wishlist,
+        "is_in_watchlist": is_in_watchlist,
     })
 
 
@@ -109,7 +109,7 @@ def search(request):
             "form": search_form,
         })
 
-    found = Listing.objects.filter(active=True)
+    found = Listing.objects.all()
 
     if search.get("category"):
         found = found.filter(category=search.get("category"))
