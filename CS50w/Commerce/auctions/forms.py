@@ -11,13 +11,11 @@ class ListingForm(forms.ModelForm):
         queryset=Category.objects.all(), empty_label=None, required=False)
     image_url = forms.URLField(required=False, label="Image url (optional)", )
     starting_bid = forms.FloatField(validators=[MinValueValidator(0.01)])
-    ending_time = forms.DateTimeField(
-        input_formats="%Y-%m-%d %H:%M", initial=lambda: datetime.now().strftime("%Y-%m-%d %H:%M"))
 
     class Meta:
         model = Listing
         fields = ["title", "description", "category",
-                  "image_url", "ending_time"]
+                  "image_url"]
 
     def __init__(self, *args, **kwargs):
         super(ListingForm, self).__init__(*args, **kwargs)

@@ -74,17 +74,23 @@ def register(request):
 def listing(request, id):
     try:
         listing = Listing.objects.get(id=id)
-        current_bid = listing.bids.latest("amount")
+        current_bid = listing.bids.latest("amount").amount
+        if request.user.is_authenticated:
+            is_in_wishlist = request.user.watchlist.filter(id=id).exists()
+        else:
+            is_in_wishlist = False
         message = None
     except Listing.DoesNotExist:
         listing = None
         current_bid = None
+        is_in_wishlist = False
         message = "Listing does not exist."
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "message": message,
         "current_bid": current_bid,
+        "is_in_wishlist": is_in_wishlist,
     })
 
 
@@ -192,6 +198,7 @@ def bid(request, id):
         })
 
 
+@login_required
 def watchlist(request):
     if request.method == "POST":
         try:
@@ -209,7 +216,10 @@ def watchlist(request):
             })
 
         if listing.active:
-            request.user.watchlist.add(listing)
+            if request.user.watchlist.filter(id=listing_id).exists():
+                request.user.watchlist.remove(listing)
+            else:
+                request.user.watchlist.add(listing)
 
             return HttpResponseRedirect(reverse("watchlist"))
 
@@ -228,6 +238,7 @@ def watchlist(request):
             })
 
 
+@login_required
 def comment(request, id):
     if request.method == "POST":
         try:
@@ -252,3 +263,36 @@ def comment(request, id):
         return render(request, "auctions/listing.html", {
             "message": "Comment must be POSTed."
         })
+
+
+def close(request, id):
+    if request.method == "POST":
+        try:
+            listing = Listing.objects.get(id=id)
+        except Listing.DoesNotExist:
+            return render(request, "auctions/listing.html", {
+                "message": "Listing does not exist."
+            })
+
+        if listing.user == request.user:
+            listing.active = False
+            listing.ending_time = make_aware(datetime.now())
+            listing.winner = listing.bids.latest("amount").user
+            listing.save()
+
+            return HttpResponseRedirect(reverse("listing", args=(id,)))
+
+        else:
+            return render(request, "auctions/listing.html", {
+                "message": "You cannot close this listing."
+            })
+    else:
+        return render(request, "auctions/listing.html", {
+            "message": "Listing must be POSTed."
+        })
+
+
+def non_active_listings(request):
+    return render(request, "auctions/non_active_listings.html", {
+        "listings": Listing.objects.filter(active=False)
+    })

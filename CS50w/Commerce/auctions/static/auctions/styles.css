@@ -14,7 +14,7 @@ body {
 }
 
 .listing-item > img {
-    width: 200px;
+    max-height: 200px;
     float: left;
     margin: 5px;
     border-radius: 10px;
@@ -31,7 +31,7 @@ body {
 
 .listing-image {
     border-radius: 10px;
-    width: 500px;
+    height: 500px;
     margin: 10px;
 }
 

@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.filter
 def get_current_bid(listing):
-    return listing.bids.latest("amount")
+    return listing.bids.latest("amount").amount
 
 
 @register.filter

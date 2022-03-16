@@ -3,12 +3,26 @@
 
 {% block body %}
     {% if listing %}
-        <form action="/watchlist" method="POST">
-          {% csrf_token %}
-            <input type="hidden" name="listing_id" value="{{ listing.id }}">
-            <input type="submit" class="btn btn-secondary" value="Add to Watchlist">
-        </form>
+        {% if listing.user == request.user and listing.active %}
+            <form action="/listing/{{ listing.id }}/close" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-secondary" value="Close Listing">
+            </form>
+        {% endif %}
+        
+        {% if listing.active %}
+            <form action="/watchlist" method="POST">
+              {% csrf_token %}
+                <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                <input type="submit" class="btn btn-secondary" value="{% if is_in_wishlist %}Remove From {% else %}Add to {% endif %}Watchlist">
+            </form>
+        {% endif %}
+        
         <h2>{{ listing.title }}</h2>
+
+        {% if not listing.active %}
+            <h3>This listing was closed on {{ listing.ending_time }} and was won by {{ listing.winner }}.</h3>
+        {% endif %}
 
         <img src="{{ listing.image_url }}" class="listing-image" alt="Listing Image">
 
@@ -16,20 +30,24 @@
 
         <h3>${{ current_bid }}</h3>
 
-        <form action="/listing/{{ listing.id }}/bid" method="POST">
-            {% csrf_token %}
-            <label for="bid">{{ listing|get_bids|length }} bid(s) so far. {% if current_bid.user == request.user %}Your bid is the current bid.{% endif %}</label>
-            <input type="number" step="0.01" name="bid" class="form-control" placeholder="Bid Amount">
-            <input type="submit" class="btn btn-primary" value="Bid">
-        </form>
+        {% if listing.active %}
+            <form action="/listing/{{ listing.id }}/bid" method="POST">
+                {% csrf_token %}
+                <label for="bid">{{ listing|get_bids|length }} bid(s) so far. {% if current_bid.user == request.user %}Your bid is the current bid.{% endif %}</label>
+                <input type="number" step="0.01" name="bid" class="form-control" placeholder="Bid Amount">
+                <input type="submit" class="btn btn-primary" value="Bid">
+            </form>
+        {% endif %}
 
 
-        <form action="/listing/{{ listing.id }}/comment" method="POST">
-            {% csrf_token %}
-            <label for="comment">Leave a comment</label>
-            <textarea name="comment" class="form-control" placeholder="Comment"></textarea>
-            <input type="submit" class="btn btn-primary" value="Comment">
-        </form>
+        {% if request.user.is_authenticated and listing.active %}
+            <form action="/listing/{{ listing.id }}/comment" method="POST">
+                {% csrf_token %}
+                <label for="comment">Leave a comment</label>
+                <textarea name="comment" class="form-control" placeholder="Comment"></textarea>
+                <input type="submit" class="btn btn-primary" value="Comment">
+            </form>
+        {% endif %}
 
         <br>
         <h2>Comments</h2>

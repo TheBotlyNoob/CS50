@@ -30,7 +30,7 @@ class Bid(Model):
     listing = ForeignKey("Listing", on_delete=CASCADE, related_name="bids")
 
     def __str__(self):
-        return str(self.amount)
+        return f"{self.user.username} bid {self.amount} on {self.listing.title}"
 
 
 class Listing(Model):
@@ -43,9 +43,11 @@ class Listing(Model):
         default="https://via.placeholder.com/250x250.png?text=No+Image")
     user = ForeignKey(User, on_delete=CASCADE)
     starting_time = DateTimeField()
-    ending_time = DateTimeField()
+    ending_time = DateTimeField(null=True)
     active = BooleanField(default=True)
+    winner = ForeignKey(
+        User, on_delete=CASCADE, null=True, related_name="won_listings")
     watchlist = ManyToManyField(User, related_name="watchlist")
 
     def __str__(self):
-        return f"{self.title} - Highest Bid: {self.bids.latest('amount')}"
+        return f"{self.title} - Highest Bid: {self.bids.latest('amount').amount}"

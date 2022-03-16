@@ -21,6 +21,9 @@
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{% url 'non_active_listings' %}">Non-Active Listings</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'search' %}">Search Listings</a>
             </li>
             {% if user.is_authenticated %}
@@ -28,7 +31,7 @@
                     <a class="nav-link" href="{% url 'new_listing' %}">New Listing</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
+                    <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
