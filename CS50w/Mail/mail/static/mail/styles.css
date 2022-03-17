@@ -1,0 +1,11 @@
+textarea {
+  min-height: 400px;
+}
+
+.email-list > tbody > tr {
+  cursor: pointer;
+}
+
+.read-email {
+  background-color: #ebebeb;
+}
