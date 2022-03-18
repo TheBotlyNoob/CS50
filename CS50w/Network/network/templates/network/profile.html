@@ -1,0 +1,14 @@
+{% extends "network/layout.html" %}
+{% load helpers %}
+
+{% block body %}
+  <h1>{{ given_user.username }}</h1>
+  <h5>{{ given_user.users_following|length }} following</h5>
+  {% if request.user.is_authenticated and not request.user == given_user %}
+    <button class="btn btn-outline-secondary" id="follow-button">Follow</button>
+  {% endif %}
+
+  {% for post in user.posts|order_by:"-created_at" %}
+    {% include "post.html" with post=post %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,9 @@
+<div class="post">
+    <a href="{% url 'profile' post.user.id %}" class="post-author">{{ post.user }}</a>
+    {% if request.user == post.user %}
+      <span class="post-edit">Edit</span>
+    {% endif %}
+    <span class="post-content">{{ post.content }}</span>
+    <span class="post-created-at">created {{ post.created_at }}</span>
+    <span class="post-updated-at">updated {{ post.updated_at }}</span>
+</div>

@@ -1,5 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    {% for post in posts %}
+      {% include "post.html" with post=post %}
+    {% endfor %}
 {% endblock %}
