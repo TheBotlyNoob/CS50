@@ -18,11 +18,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='followed_users',
-            field=models.ManyToManyField(blank=True, related_name='users_following', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True, related_name='users_following', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='user',
             name='liked_posts',
-            field=models.ManyToManyField(blank=True, related_name='users_liked', to='network.post'),
+            field=models.ManyToManyField(
+                blank=True, related_name='liked', to='network.post'),
         ),
     ]

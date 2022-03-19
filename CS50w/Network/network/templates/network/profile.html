@@ -3,12 +3,34 @@
 
 {% block body %}
   <h1>{{ given_user.username }}</h1>
-  <h5>{{ given_user.users_following|length }} following</h5>
+  <h5>{{ given_user.followed_users|all|length }} following</h5>
   {% if request.user.is_authenticated and not request.user == given_user %}
-    <button class="btn btn-outline-secondary" id="follow-button">Follow</button>
+    <button class="btn btn-outline-secondary follow-button {% if is_following %}following{% endif %}">{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
   {% endif %}
 
-  {% for post in user.posts|order_by:"-created_at" %}
+  {% for post in page_obj.object_list %}
     {% include "post.html" with post=post %}
   {% endfor %}
+
+  <ul class="pagination">
+    {% if not page_obj.has_previous %}
+      <li class="page-item disabled" tabindex="-1" aria-disabled="true">
+        <span class="page-link">&laquo;</span>
+      </li>
+    {% else %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+      </li>
+    {% endif %}
+
+    {% if not page_obj.has_next %}
+      <li class="page-item disabled" tabindex="-1" aria-disabled="true">
+        <span class="page-link">&raquo;</span>
+      </li>
+    {% else %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+      </li>
+    {% endif %}
+  </ul>
 {% endblock %}

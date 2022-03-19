@@ -1,7 +1,30 @@
 {% extends "network/layout.html" %}
+{% load helpers %}
 
 {% block body %}
-    {% for post in posts %}
+    {% for post in page_obj.object_list %}
       {% include "post.html" with post=post %}
     {% endfor %}
+
+    <ul class="pagination">
+      {% if not page_obj.has_previous %}
+        <li class="page-item disabled" tabindex="-1" aria-disabled="true">
+          <span class="page-link">&laquo;</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+        </li>
+      {% endif %}
+
+      {% if not page_obj.has_next %}
+        <li class="page-item disabled" tabindex="-1" aria-disabled="true">
+          <span class="page-link">&raquo;</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+        </li>
+      {% endif %}
+    </ul>
 {% endblock %}

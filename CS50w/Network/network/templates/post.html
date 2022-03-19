@@ -1,4 +1,6 @@
-<div class="post">
+{% load helpers %}
+
+<div class="post" id="post-{{ post.id }}" data-post-id="{{ post.id }}">
     <a href="{% url 'profile' post.user.id %}" class="post-author">{{ post.user }}</a>
     {% if request.user == post.user %}
       <span class="post-edit">Edit</span>
@@ -6,4 +8,12 @@
     <span class="post-content">{{ post.content }}</span>
     <span class="post-created-at">created {{ post.created_at }}</span>
     <span class="post-updated-at">updated {{ post.updated_at }}</span>
+    <div class="post-likes-container">
+      <span class="post-likes">{{ post.liked|all|length }} like(s)</span>
+      {% if post in request.user.liked_posts|all %}
+        <span class="post-like post-liked">♥</span>
+      {% else %}
+        <span class="post-like">♡</span>
+      {% endif %}
+    </div>
 </div>
