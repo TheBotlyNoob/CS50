@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "Source Code Pro";
+  src: url(/static/SourceCodePro.ttf) format("truetype");
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  width: 100%;
+  scroll-behavior: smooth;
+}
+
+body,
+#app {
+  background-color: black;
+  color: white;
+  font-family: "Source Code Pro", monospace;
+  font-size: 18px;
+  overflow: auto;
+  cursor: text;
+}
+
+#terminal {
+  color: white;
+}
+
+#input-area,
+#prompt {
+  background-color: black;
+  border: none;
+  outline: none;
+  color: white;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100vh;
+  font: inherit;
+  margin-bottom: 5px;
+}
+
+#prompt {
+  margin-left: 5px;
+}
