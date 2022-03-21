@@ -11,6 +11,8 @@ from asgiref.sync import sync_to_async
 from tempfile import gettempdir
 from shutil import rmtree
 
+import re
+
 from .models import *
 import subprocess
 import os
@@ -82,20 +84,26 @@ def execute(request):
 
         command = request.POST["command"]
 
-        command = ExecutedCommand.objects.create(
-            command=command, user=request.user)
-        command.save()
+        commands = list(command.split("&"))
+
+        for command in commands:
+            ExecutedCommand.objects.create(
+                command=command, user=request.user).save()
 
         temp_dir = gettempdir() + "/online-terminal/" + str(request.user.id)
 
         os.makedirs(temp_dir, exist_ok=True)
 
+        output = ""
+
         # very insecure, do not use in production
-        try:
-            output = subprocess.run(
-                command.command, cwd=temp_dir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True, timeout=10).stdout.decode("utf-8").strip()
-        except subprocess.TimeoutExpired:
-            return JsonResponse({"success": False, "message": "Command timed out.", "command_history": [command.command for command in request.user.command_history.all()]})
+        for command in commands:
+            try:
+                output += subprocess.run(
+                    command, cwd=temp_dir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, timeout=10, shell=True).stdout.decode("utf-8").strip() + "\n"
+            except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+                print(e)
+                output += "Command not found.\n" if e is FileNotFoundError else "Command timed out.\n"
 
         return JsonResponse({"success": True, "output": output, "command_history": [command.command for command in request.user.command_history.all()]})
     else:

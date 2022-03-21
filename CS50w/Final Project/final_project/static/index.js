@@ -57,7 +57,7 @@ class App extends React.Component {
     this.setState({
       ...this.state,
       executing: false,
-      result: res.output,
+      result: res.output || res.message,
       command_history: res.command_history,
     });
   }
