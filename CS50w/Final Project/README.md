@@ -16,9 +16,11 @@ $ python3 manage.py runserver
 
 # what's inside?
 
-In [final_project/static/index.js](./final_project/static/index.js) is the client side code (it also contains jsx), it makes the requests to execute the command, and implements command history.
+In [final_project/static/index.js](./final_project/static/index.js) is the main JavaScript code. It uses React and BabelJS to render the webpage.
 
-In [final_project/views.py](./final_project/views.py) is the server side code, it handles the requests from the client side, and executes the commands.
+In [final_project/views.py](./final_project/views.py) is the server side code, it handles the requests from the client side, and executes the commands. It only contains 2 custom functions: `execute` and `command_history`. `execute` is the function that executes the command in a shell, using `subprocess`, and `command_history` is a function that allows you to get the command history.
+
+In [final_project/static/styles.css](./final_project/static/styles.css) is the CSS code. It contains the styles for the webpage. It uses a black background, white text, and Source Code Pro as the font to give the complete look of the terminal.
 
 # distinctiveness and complexity
 
