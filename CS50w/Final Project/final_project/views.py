@@ -80,7 +80,7 @@ def register(request):
 def execute(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
-            return JsonResponse({"success": False, "message": "Not logged in."})
+            return JsonResponse({"success": False, "output": "Not logged in."})
 
         command = request.POST["command"]
 
@@ -107,7 +107,7 @@ def execute(request):
 
         return JsonResponse({"success": True, "output": output, "command_history": [command.command for command in request.user.command_history.all()]})
     else:
-        return JsonResponse({"success": False, "message": "/execute should be POSTed"})
+        return JsonResponse({"success": False, "output": "/execute should be POSTed"})
 
 
 def command_history(request):

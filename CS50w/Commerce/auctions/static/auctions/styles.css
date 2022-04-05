@@ -1,59 +1,59 @@
 body {
-    padding: 10px;
+  padding: 10px;
 }
 
 .listing-item {
-    border: 1px solid grey;
-    border-radius: 10px;
-    width: 90%;
-    float: left;
-    color: black;
-    text-align: center;
-    margin: 20px;
-    background-color: rgb(224, 224, 224);
+  border: 1px solid grey;
+  border-radius: 10px;
+  width: 90%;
+  float: left;
+  color: black;
+  text-align: center;
+  margin: 20px;
+  background-color: rgb(224, 224, 224);
 }
 
 .listing-item > img {
-    max-height: 200px;
-    float: left;
-    margin: 5px;
-    border-radius: 10px;
+  max-height: 200px;
+  float: left;
+  margin: 5px;
+  border-radius: 10px;
 }
 
 .listing-item:hover {
-    color: black;
-    background-color: rgb(218, 218, 218);
+  color: black;
+  background-color: rgb(218, 218, 218);
 }
 
 .listing-item > span {
-    color: darkgrey;
+  color: darkgrey;
 }
 
 .listing-image {
-    border-radius: 10px;
-    height: 500px;
-    margin: 10px;
+  border-radius: 10px;
+  height: 500px;
+  margin: 10px;
 }
 
 .btn {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 form {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .comment {
-    border: 1px solid grey;
-    border-radius: 10px;
-    width: 90%;
-    float: left;
-    color: black;
-    margin: 20px;
-    background-color: rgb(224, 224, 224);
+  border: 1px solid grey;
+  border-radius: 10px;
+  width: 90%;
+  float: left;
+  color: black;
+  margin: 20px;
+  background-color: rgb(224, 224, 224);
 }
 
 .comment > span {
-    margin-left: 10px;
-    font-weight: bold;
+  margin-left: 10px;
+  font-weight: bold;
 }

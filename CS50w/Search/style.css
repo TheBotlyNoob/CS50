@@ -1,108 +1,108 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-        "Lucida Sans", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 }
 
 body,
 html {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #search-bar {
-    border-radius: 50px;
-    width: 60vw;
-    height: 50px;
-    margin: 30px;
-    padding: 15px;
+  border-radius: 50px;
+  width: 60vw;
+  height: 50px;
+  margin: 30px;
+  padding: 15px;
 }
 
 #button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60vw;
 }
 
 .button {
-    border-radius: 5px;
-    padding: 13px;
-    margin: 20px;
-    background-color: #f8f9fa;
-    /* so that everything doesn't get raised by 1 pixel on hover */
-    border: solid 1px white;
-    color: black;
+  border-radius: 5px;
+  padding: 13px;
+  margin: 20px;
+  background-color: #f8f9fa;
+  /* so that everything doesn't get raised by 1 pixel on hover */
+  border: solid 1px white;
+  color: black;
 }
 
 .button:hover {
-    border: solid 1px grey;
-    cursor: pointer;
+  border: solid 1px grey;
+  cursor: pointer;
 }
 
 nav {
-    top: 6px;
-    right: 6px;
-    position: absolute;
+  top: 6px;
+  right: 6px;
+  position: absolute;
 }
 
 nav > a {
-    text-decoration: none;
-    color: black;
-    margin: 5px;
+  text-decoration: none;
+  color: black;
+  margin: 5px;
 }
 
 nav > a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 nav > a:visited {
-    color: black;
+  color: black;
 }
 
 #google-image {
-    width: min(80vw, 80vh);
-    height: min(20vw, 20vh);
-    top: 0vh;
-    position: absolute;
-    z-index: -1;
+  width: min(80vw, 80vh);
+  height: min(20vw, 20vh);
+  top: 0vh;
+  position: absolute;
+  z-index: -1;
 }
 
 #under-google-logo-text {
-    font-size: larger;
-    top: min(15vw, 15vh);
-    position: absolute;
+  font-size: larger;
+  top: min(15vw, 15vh);
+  position: absolute;
 }
 
 #advanced-inputs-container {
-    margin-left: 50px;
+  margin-left: 50px;
 }
 
 #advanced-inputs-container > div {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 #advanced-inputs-container > div > label::after {
-    content: ":";
+  content: ":";
 }
 
 #advanced-inputs-container > div > input {
-    position: absolute;
-    left: 45vw;
+  position: absolute;
+  left: 45vw;
 }
 
 #advanced-search-button {
-    background-color: #8ab4f8;
+  background-color: #8ab4f8;
 }
 
 #advanced-search-button:hover {
-    background-color: #aecbfa;
+  background-color: #aecbfa;
 }
