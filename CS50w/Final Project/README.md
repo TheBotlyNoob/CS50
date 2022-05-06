@@ -94,4 +94,9 @@ Example response:
 
 ---
 
-I believe this project satisfies the distinctiveness and complexity requirements of the project, because the idea of it has very little to do with previous projects, and because it utilizes `subprocess.run()`, ReactJS, and BabelJS. It has two Django models, one for an executed command, and one for a user.
+I believe that my submission is both more complex than other projects and mobile-responsive is that:
+
+-   I utilize more than one Django model
+-   I utilize `subprocess`
+-   I utilize JavaScript's `fetch` api to access the api
+-   I utilize ReactJS and BabelJS to render the webpage
