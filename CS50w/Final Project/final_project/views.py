@@ -38,9 +38,9 @@ def login(request):
             auth_login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "login.html", {
-                "message": "Invalid email and/or password."
-            })
+            return render(
+                request, "login.html", {"message": "Invalid email and/or password."}
+            )
     else:
         return render(request, "login.html")
 
@@ -58,9 +58,9 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "register.html", {
-                "message": "Passwords must match."
-            })
+            return render(
+                request, "register.html", {"message": "Passwords must match."}
+            )
 
         # Attempt to create new user
         try:
@@ -68,10 +68,10 @@ def register(request):
             user.save()
         except IntegrityError as e:
             print(e)
-            return render(request, "register.html", {
-                "message": "Email address already taken."
-            })
-        login(request, user)
+            return render(
+                request, "register.html", {"message": "Email address already taken."}
+            )
+        auth_login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "register.html")
@@ -87,8 +87,7 @@ def execute(request):
         commands = list(command.split("&"))
 
         for command in commands:
-            ExecutedCommand.objects.create(
-                command=command, user=request.user).save()
+            ExecutedCommand.objects.create(command=command, user=request.user).save()
 
         temp_dir = gettempdir() + "/online-terminal/" + str(request.user.id)
 
@@ -99,13 +98,36 @@ def execute(request):
         # very insecure, do not use in production
         for command in commands:
             try:
-                output += subprocess.run(
-                    command, cwd=temp_dir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, timeout=10, shell=True).stdout.decode("utf-8").strip() + "\n"
+                output += (
+                    subprocess.run(
+                        command,
+                        cwd=temp_dir,
+                        stderr=subprocess.STDOUT,
+                        stdout=subprocess.PIPE,
+                        timeout=10,
+                        shell=True,
+                    )
+                    .stdout.decode("utf-8")
+                    .strip()
+                    + "\n"
+                )
             except (subprocess.TimeoutExpired, FileNotFoundError) as e:
                 print(e)
-                output += "Command not found.\n" if e is FileNotFoundError else "Command timed out.\n"
+                output += (
+                    "Command not found.\n"
+                    if e is FileNotFoundError
+                    else "Command timed out.\n"
+                )
 
-        return JsonResponse({"success": True, "output": output, "command_history": [command.command for command in request.user.command_history.all()]})
+        return JsonResponse(
+            {
+                "success": True,
+                "output": output,
+                "command_history": [
+                    command.command for command in request.user.command_history.all()
+                ],
+            }
+        )
     else:
         return JsonResponse({"success": False, "output": "/execute should be POSTed"})
 
@@ -114,4 +136,11 @@ def command_history(request):
     if not request.user.is_authenticated:
         return JsonResponse({"success": False, "message": "Not logged in."})
 
-    return JsonResponse({"success": True, "commands": [command.command for command in request.user.command_history.all()]})
+    return JsonResponse(
+        {
+            "success": True,
+            "commands": [
+                command.command for command in request.user.command_history.all()
+            ],
+        }
+    )
