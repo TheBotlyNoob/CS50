@@ -22,7 +22,6 @@
         <link rel="stylesheet" href="{% static 'styles.css' %}" />
 
         <script>
-            window.command_history = "{{ request.user.command_history }}";
             window.csrf_token = "{{ csrf_token }}";
         </script>
     </head>

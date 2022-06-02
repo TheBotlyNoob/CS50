@@ -82,7 +82,7 @@ def execute(request):
         if not request.user.is_authenticated:
             return JsonResponse({"success": False, "output": "Not logged in."})
 
-        command = request.POST["command"]
+        command: str = request.body.decode("utf-8")
 
         commands = list(command.split("&"))
 

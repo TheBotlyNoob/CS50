@@ -14,10 +14,14 @@ I have tried to make sure that the code is as safe and secure as possible, but, 
 
 ---
 
+This project uses [Python](https://www.python.org/) and [Django](https://www.djangoproject.com/).
+
 To install the dependencies, run the following command:
 
 ```
+
 $ python3 -m pip install django
+
 ```
 
 # Running
@@ -34,15 +38,15 @@ $ python3 manage.py runserver
 
 ---
 
-> ### If you do not have an account, register one:
+> ### If you do not have an account, register one at `/register`:
 
 ![registering an account](./assets/registering.png)
 
-> ### If you already have an account, login:
+> ### If you already have an account, login at `/login`:
 
 ![logging in](./assets/logging-in.png)
 
-> ### Then, you can access the terminal:
+> ### Then, you can access the terminal at `/`:
 
 ![accessing the terminal](./assets/terminal.png)
 
@@ -68,18 +72,70 @@ In [final_project/static/styles.css](./final_project/static/styles.css) is the C
 
 ---
 
-The api to execute commands and get the command history for a user.
+The api to login, register, logout, execute commands and get the command history for a user.
+
+> ### `POST` /login
+>
+> Login as a specific user.
+
+Expected request (`multipart/form-data`):
+
+```yaml
+username: string
+password: string
+```
+
+Example request (`multipart/form-data`):
+
+```yaml
+username: myusername
+password: mypassword
+```
+
+Expected response:
+
+-   you get redirected to the terminal
+
+> ### `POST` /register
+>
+> Register a new user.
+
+Expected request (`multipart/form-data`):
+
+```yaml
+username: string
+password: string
+```
+
+Example request (`multipart/form-data`):
+
+```yaml
+username: myusername
+password: mypassword
+```
+
+Expected response:
+
+-   you get redirected to the terminal
+
+> ### `POST` /logout
+>
+> Logout the current user.
 
 > ### `POST` /execute
 >
 > Executes a command and returns the output. User must be authenticated.
 
-Expected request (`multipart/form-data`):
+Expected request (`text/plain`):
 
-```yaml
-command:
-    type: string
-    required: true
+```
+{command}
+```
+
+Example request (`text/plain`):
+
+```
+echo Hello, World!
 ```
 
 Expected response (`application/json`):
@@ -102,7 +158,7 @@ Example response:
 }
 ```
 
-> ### `POST` /command_history
+> ### `GET` /command_history
 >
 > Gets a user's command history. User must be authenticated.
 
