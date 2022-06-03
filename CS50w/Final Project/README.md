@@ -2,7 +2,9 @@
 
 ---
 
-This project is an online terminal that allows users to access a command prompt from anywhere, inside of their own temporary directory.
+This is a bit of code I wrote to pay homage to the main-frame programmers of old, and I mean even older than my mother! After all, the internet didn’t exist and the most popular languages were Assembly, COBOL and FORTRAN.
+
+I wanted to show how, with a bit of code, I could emulate some of my grandparent’s generation of inputting data by creating a very basic terminal emulator but using 21st century innovations such as Python, JavaScript, Django, and React.
 
 # Safety
 
@@ -19,9 +21,7 @@ This project uses [Python](https://www.python.org/) and [Django](https://www.dja
 To install the dependencies, run the following command:
 
 ```
-
 $ python3 -m pip install django
-
 ```
 
 # Running
