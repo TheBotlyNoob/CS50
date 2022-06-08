@@ -10,7 +10,7 @@ I wanted to show how, with a bit of code, I could emulate some of my grandparent
 
 ---
 
-I have tried to make sure that the code is as safe and secure as possible, but, this website is for users to execute commands on the host machine it, so please, do not open this website to the world.
+This is an example application. Feel free to use it, but it is provided as-is.
 
 # Installation
 
@@ -28,7 +28,7 @@ $ python3 -m pip install django
 
 ---
 
-To start the server, run the following command:
+To start the webserver, run the following command:
 
 ```bash
 $ python3 manage.py runserver
@@ -64,7 +64,7 @@ Once you access the terminal you can:
 
 In [final_project/static/index.js](./final_project/static/index.js) is the main JavaScript code. It uses ReactJS and BabelJS to render the webpage. When the user wants to execute a command, it sends the command to the server at `/execute`, which then executes it.
 
-In [final_project/views.py](./final_project/views.py) is the server side code, it handles the requests from the client side, and executes the commands. It only contains 2 custom functions: `execute` and `command_history`. `execute` is the function that executes the command in a shell, using `subprocess`, and `command_history` is a function that allows you to get the command history.
+In [final_project/views.py](./final_project/views.py) is the server side code, it handles the requests from the client side, and executes the commands. It only contains 2 custom functions: `execute` and `command_history`. `execute` is the function that executes the command in your OS's preferred shell, and `command_history` is a function that allows you to get the command history.
 
 In [final_project/static/styles.css](./final_project/static/styles.css) is the CSS code. It contains the styles for the webpage. It uses a black background, white text, and Source Code Pro as the font to give the complete look of the terminal.
 
@@ -124,7 +124,7 @@ Expected response:
 
 > ### `POST` /execute
 >
-> Executes a command and returns the output. User must be authenticated.
+> Executes a command in the shell and returns the output. User must be authenticated.
 
 Expected request (`text/plain`):
 
@@ -184,8 +184,8 @@ Example response:
 
 I believe that my submission is both more complex than other projects and mobile-responsive is that:
 
--   I utilize more than one Django model
--   I utilize `subprocess`
--   I utilize JavaScript's `fetch` API to access the API
--   I utilize ReactJS and BabelJS to render the webpage
--   I utilize JavaScript's DOM event listener API
+-   I utilized more than one Django model
+-   I utilized Python's built-in `subprocess` API
+-   I utilized JavaScript's `fetch` API to access the API
+-   I utilized ReactJS and BabelJS to render the webpage
+-   I utilized JavaScript's event listener API
