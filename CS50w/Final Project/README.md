@@ -16,9 +16,9 @@ This is an example application. Feel free to use it, but it is provided as-is.
 
 ---
 
-This project uses [Python](https://www.python.org/) and [Django](https://www.djangoproject.com/).
+This project uses [Python](https://www.python.org/) > 3.8 and [Django](https://www.djangoproject.com/).
 
-To install the dependencies, run the following command:
+To install the dependencies, make sure you have python installed, and run the following command:
 
 ```
 $ python3 -m pip install django
@@ -54,7 +54,6 @@ Once you access the terminal you can:
 
 -   Execute commands
 -   Use the <kbd>Arrow-Up</kbd> key to use the previous command
--   Use your temporary directory to store files, such as images, videos, and documents
 
 # What's Inside?
 
@@ -122,9 +121,13 @@ Expected response:
 >
 > Logout the current user.
 
+expected response:
+
+-   you get redirected to the login page
+
 > ### `POST` /execute
 >
-> Executes a command in the shell and returns the output. User must be authenticated.
+> Executes a command **in the shell** and returns the output. User must be authenticated.
 
 Expected request (`text/plain`):
 
@@ -182,8 +185,9 @@ Example response:
 
 ---
 
-I believe that my submission is both more complex than other projects and mobile-responsive is that:
+I believe that my submission is more complex than other projects because:
 
+-
 -   I utilized more than one Django model
 -   I utilized Python's built-in `subprocess` API
 -   I utilized JavaScript's `fetch` API to access the API
