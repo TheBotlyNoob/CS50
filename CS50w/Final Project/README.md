@@ -12,6 +12,8 @@ I wanted to show how, with a bit of code, I could emulate some of my grandparent
 
 This is an example application. Feel free to use it, but it is provided as-is.
 
+Every user gets their own temporary directory, and I have done my best to make sure that the casual user cannot access any files outside of their temporary directory. However, I cannot guarantee that a more advanced user cannot access information outside of their directory.
+
 # Installation
 
 ---
@@ -38,7 +40,7 @@ $ python3 manage.py runserver
 
 ---
 
-> ### If you do not have an account, register one at `/register`:
+> ### If you do not have an account, register one at `/register`. We require registration because we create temporary directories on a per-user basis:
 
 ![registering an account](./assets/registering.png)
 
@@ -52,8 +54,9 @@ $ python3 manage.py runserver
 
 Once you access the terminal you can:
 
--   Execute commands
+-   Execute commands in a command shell/tty session on the server e.g. `dir`/`ls` or `mkdir`
 -   Use the <kbd>Arrow-Up</kbd> key to use the previous command
+-
 
 # What's Inside?
 
@@ -187,7 +190,6 @@ Example response:
 
 I believe that my submission is more complex than other projects because:
 
--
 -   I utilized more than one Django model
 -   I utilized Python's built-in `subprocess` API
 -   I utilized JavaScript's `fetch` API to access the API
