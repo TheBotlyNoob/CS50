@@ -40,7 +40,7 @@ $ python3 manage.py runserver
 
 ---
 
-> ### If you do not have an account, register one at `/register`. We require registration because we create temporary directories on a per-user basis:
+> ### If you do not have an account, . We require registration because we create temporary directories on a per-user basis:
 
 ![registering an account](./assets/registering.png)
 
@@ -188,10 +188,13 @@ Example response:
 
 ---
 
-I believe that my submission is more complex than other projects because:
+I believe that my submission is more complex than other projects I have created because:
 
+-   I created custom styles for the terminal
 -   I utilized more than one Django model
 -   I utilized Python's built-in `subprocess` API
 -   I utilized JavaScript's `fetch` API to access the API
 -   I utilized ReactJS and BabelJS to render the webpage
 -   I utilized JavaScript's event listener API
+
+All to create a nostalgic feel for the old days of those who came before me.
