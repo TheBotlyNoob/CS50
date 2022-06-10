@@ -30,6 +30,8 @@ $ python3 -m pip install django
 
 ---
 
+To emulate the Big Iron of old, we will be using a webserver.
+
 To start the webserver, run the following command:
 
 ```bash
@@ -54,9 +56,8 @@ $ python3 manage.py runserver
 
 Once you access the terminal you can:
 
--   Execute commands in a command shell/tty session on the server e.g. `dir`/`ls` or `mkdir`
--   Use the <kbd>Arrow-Up</kbd> key to use the previous command
--
+-   Execute commands in a command shell/tty session on the server e.g. `dir`/`ls` or `mkdir`, just like they did in the old days
+-   Use the <kbd>Arrow-Up</kbd> key to use the previous command (command history)
 
 # What's Inside?
 
@@ -66,7 +67,7 @@ Once you access the terminal you can:
 
 In [final_project/static/index.js](./final_project/static/index.js) is the main JavaScript code. It uses ReactJS and BabelJS to render the webpage. When the user wants to execute a command, it sends the command to the server at `/execute`, which then executes it.
 
-In [final_project/views.py](./final_project/views.py) is the server side code, it handles the requests from the client side, and executes the commands. It only contains 2 custom functions: `execute` and `command_history`. `execute` is the function that executes the command in your OS's preferred shell, and `command_history` is a function that allows you to get the command history.
+In [final_project/views.py](./final_project/views.py) is the server side code. It handles the requests from the client side, and executes the commands. It only contains 2 custom functions: `execute` and `command_history`. `execute` is the function that executes the command in your OS's preferred shell, and `command_history` is a function that allows you to retrive previously entered commands.
 
 In [final_project/static/styles.css](./final_project/static/styles.css) is the CSS code. It contains the styles for the webpage. It uses a black background, white text, and Source Code Pro as the font to give the complete look of the terminal.
 
@@ -74,7 +75,7 @@ In [final_project/static/styles.css](./final_project/static/styles.css) is the C
 
 ---
 
-The api to login, register, logout, execute commands and get the command history for a user.
+The API to login, register, logout, execute commands and get the command history for a user.
 
 > ### `POST` /login
 >
