@@ -40,15 +40,15 @@ $ python3 manage.py runserver
 
 ---
 
-> ### If you do not have an account, . We require registration because we create temporary directories on a per-user basis:
+> ### If you do not have an account, you will need to create one. We require registration because we create temporary directories on a per-user basis:
 
 ![registering an account](./assets/registering.png)
 
-> ### If you already have an account, login at `/login`:
+> ### If you already have an account, you will be redirected to the login prompt:
 
 ![logging in](./assets/logging-in.png)
 
-> ### Then, you can access the terminal at `/`:
+> ### Then, you will be redirected to the terminal:
 
 ![accessing the terminal](./assets/terminal.png)
 
@@ -196,5 +196,8 @@ I believe that my submission is more complex than other projects I have created 
 -   I utilized JavaScript's `fetch` API to access the API
 -   I utilized ReactJS and BabelJS to render the webpage
 -   I utilized JavaScript's event listener API
+-   I made an application that is mobile responsive
+
+![mobile device](./assets/mobile-device.jpg)
 
 All to create a nostalgic feel for the old days of those who came before me.
