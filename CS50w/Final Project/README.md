@@ -201,4 +201,4 @@ I believe that my submission is more complex than other projects I have created 
 
 ![mobile device](./assets/mobile-device.jpg)
 
-All to create a nostalgic feel for the old days of those who came before me.
+### All to create the tools of those who came before me.
