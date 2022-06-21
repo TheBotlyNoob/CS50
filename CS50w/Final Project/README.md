@@ -18,9 +18,9 @@ Every user gets their own temporary directory, and I have done my best to make s
 
 ---
 
-This project uses [Python](https://www.python.org/) > 3.8 and [Django](https://www.djangoproject.com/).
+This project uses [Python](https://www.python.org/) >= 3.8 and [Django](https://www.djangoproject.com/).
 
-To install the dependencies, make sure you have python installed, and run the following command:
+To install the dependencies, make sure you have Python 3.8 or greater installed, and run the following command:
 
 ```
 $ python3 -m pip install django
